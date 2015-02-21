@@ -18,21 +18,20 @@ function BefungeInterpreter() {
 BefungeInterpreter.prototype.execute = function (str) {
 	this.instructions = getInstructions(str);
 	while(!this.executionComplete) {
-    if(this.mode === MODE_STRING) {
-      if(this.instructions[this.y][this.x] === '"') {
-        instructionSet[this.instructions[this.y][this.x]].call(this);
-      } else {
-        this.stack.push(this.instructions[this.y][this.x].charCodeAt(0));
-      }
-      
-    }
-		else {
-      instructionSet[this.instructions[this.y][this.x]].call(this);
-    }
+		if(this.mode === MODE_STRING) {
+			if(this.instructions[this.y][this.x] === '"') {
+				instructionSet[this.instructions[this.y][this.x]].call(this);
+			} else {
+				this.stack.push(this.instructions[this.y][this.x].charCodeAt(0));
+			} 
+		} else {
+			instructionSet[this.instructions[this.y][this.x]].call(this);
+		}
+
 		moveToNextPosition.call(this);
 	}
-  
-  var output = this.output;
+
+	var output = this.output;
 	init.call(this);
 
 	return output;
